@@ -12,6 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-string image_path         #input: an image
+string[] image_paths         #input: an image
 ---
-ObjectsInBoxes objects    #output: objects prediction with bounding boxes
+ObjectsInBoxes[] objects    #output: objects prediction with bounding boxes
