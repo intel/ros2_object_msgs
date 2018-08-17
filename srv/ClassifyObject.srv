@@ -12,6 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-string[] image_paths   # input: an image
+string image_path   # input: an image
 ---
-Objects[] objects     # output: objects prediction
+Objects objects     # output: objects prediction
