@@ -2,8 +2,8 @@
 Changelog for package object_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.4.0 (2019-05-15)
+------------------
 * Merge pull request `#3 <https://github.com/RachelRen05/ros2_object_msgs/issues/3>`_ from chaoli2/master
   Revert "update object message type to support multiple device"
 * Revert "update object message type to support multiple device"
