@@ -19,54 +19,45 @@ find_package(ament_cmake REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+
+set(msg_files
+  msg/AgeGender.msg
+  msg/AgeGenderStamped.msg
+  msg/Emotion.msg
+  msg/EmotionsStamped.msg
+  msg/HeadPose.msg
+  msg/HeadPoseStamped.msg
+  msg/Landmark.msg
+  msg/LandmarkStamped.msg
+  msg/LicensePlate.msg
+  msg/LicensePlateStamped.msg
+  msg/Object.msg
+  msg/Objects.msg
+  msg/ObjectInBox.msg
+  msg/ObjectsInBoxes.msg
+  msg/ObjectInBox3D.msg
+  msg/ObjectsInBoxes3D.msg
+  msg/ObjectInMask.msg
+  msg/ObjectsInMasks.msg
+  msg/PerfValue.msg
+  msg/PersonAttribute.msg
+  msg/PersonAttributeStamped.msg
+  msg/PersonsStamped.msg
+  msg/Reidentification.msg
+  msg/ReidentificationStamped.msg
+  msg/VehicleAttribs.msg
+  msg/VehicleAttribsStamped.msg
+)
+
+set(srv_files
+  srv/ClassifyObject.srv
+  srv/DetectObject.srv
+)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
-  "msg/Object.msg"
-  "msg/Objects.msg"
-  "msg/ObjectInBox.msg"
-  "msg/ObjectsInBoxes.msg"
-  "srv/ClassifyObject.srv"
-  "srv/DetectObject.srv"
-  DEPENDENCIES sensor_msgs std_msgs)
-
-# Flags
-if(UNIX OR APPLE)
-  # Linker flags.
-  if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
-    # GCC specific flags. ICC is compatible with them.
-    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -z noexecstack -z relro -z now")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -z noexecstack -z relro -z now")
-  elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-    # In Clang, -z flags are not compatible, they need to be passed to linker via -Wl.
-    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now")
-  endif()
-
-  # Compiler flags.
-  if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-    # GCC specific flags.
-    if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.9 OR CMAKE_CXX_COMPILER_VERSION VERSION_EQUAL 4.9)
-      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIE -fstack-protector-strong")
-    else()
-      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIE -fstack-protector")
-    endif()
-  elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-    # Clang is compatbile with some of the flags.
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIE -fstack-protector")
-  elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
-    # Same as above, with exception that ICC compilation crashes with -fPIE option, even
-    # though it uses -pie linker option that require -fPIE during compilation. Checksec
-    # shows that it generates correct PIE anyway if only -pie is provided.
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fstack-protector")
-  endif()
-
-  # Generic flags.
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -fno-operator-names -Wformat -Wformat-security -Wall")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-  # Dot not forward c++11 flag to GPU beucause it is not supported
-  set(CUDA_PROPAGATE_HOST_FLAGS OFF)
-  set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -D_FORTIFY_SOURCE=2")
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pie")
-endif()
+  ${msg_files}
+  ${srv_files}
+  DEPENDENCIES sensor_msgs std_msgs geometry_msgs)
 
 ament_package()
