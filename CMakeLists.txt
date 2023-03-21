@@ -53,6 +53,11 @@ set(msg_files
 set(srv_files
   srv/ClassifyObject.srv
   srv/DetectObject.srv
+  srv/AgeGenderSrv.srv
+  srv/EmotionSrv.srv
+  srv/HeadPoseSrv.srv
+  srv/People.srv
+
 )
 
 rosidl_generate_interfaces(${PROJECT_NAME}
